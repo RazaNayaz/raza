@@ -1,52 +1,85 @@
-def size_look(shirts, sizes, required, req_size):
-    L1 = sizes.split(" ")
-    L2 = req_size.split(" ")
-    flag = False
-    s1 = set (L1)
-    s2 = set (L2)
-    z = s2.intersection(s1) # for removing 1 instance of the same sizes...(just a trial..for debugging)
-    for element in z:
-        a = L2.index(element)
-        b = L1.index(element)
-        L1.pop(b)
-        L2.pop(a)
-    else: # for all the remaining elements
-        for i in L2:
-            for j in L1:
-                if i[-1] == "S" and j[-1] in {"S", "M", "L"}:
-                    index_i = L2.index(i)
-                    index_j = L1.index(j)
-                    L1.pop(index_j)
-                    break
-                elif i[-1] == "M" and j[-1] in {"M", "L"}:
+num1 = int(input("Enter no. of shirts in stock:\t"))
+a = input ("Enter the shirt sizes available:")
+num2 = int(input("Enter np. of shirts required:\t"))
+b = input("Enter the required shirt sizes")
+L1 = a.split()
+L2 = b.split()
+result = True
+if num1>num2 and len(L1) == num1 and len(L2) == num2:
+    for size in L2:
+        for new in L1:
 
-                    index_i = L2.index(i)
-                    index_j = L1.index(j)
-                    L1.pop(index_j)
-                    break
-                elif i[-1] == "L":
-                    if j[-1] in {"L"}:
-                        index_j = L1.index(j)
-                        L1.pop(index_j)
+            if len(size) != len(new):
+                    if size[-1] == "S":
+                        if new[-1] in ["M", "L"]:
+                            result = True
+                            break
+                           
+                        else:
+                            if len(size[0:-2:1]) > len(new[0:-2:1]):
+                                result = True
+                                break
+                                
+                            else:
+                                result = False
+                                #break
+                                
+                    elif size[-1] == "M":
+                        if new[-1] in ["L"]:
+                            result = True
+                            break
+                            
+                        else:
+                            #
+                            if len(size[0:-2:1]) > len(new[0:-2:1]):
+                                result = False
+                                #break
+                            else:
+                                result = True
+                                break
+                                
+                    elif size[-1] == "L":
+                        if new[-1] in ["L"]:
+                                if len(size[0:-2:1]) > len(new[0:-2:1]):
+                                    result = False
+                                    #break
+                                else:
+                                    result = True
+                                    break
+                                    
+                        else:
+                            result = False
+                            #break
+            else:
+                if size[-1] == "S":
+                    if new[-1] == "S":
+                        result = True
                         break
+                        
+                    else:
+                        result = False
+                elif size[-1] == "M":
+                    if new[-1] in ["S", "M"]:
+                        result = False
+                    else:
+                        result = True
+                        break
+                        
                 else:
-                    flag = True # need to return This properly 
-                    break
-        
-
-    if flag == True:
-        return ("No")
+                    if new[-1] == "L":
+                        result = True
+                        break
+                        
+                    else:
+                        result = False
+    if result == True:
+        print ("Yes")
     else:
-        return ("Yes")
-
-shirts = int(input("Number of shirts in stock:\t"))
-sizes = input("Sizes in stock:\t")
-required = int(input("Required t-shirts:\t"))
-req_size = input("Sizes required:\t")
-if shirts > required:
-    print(size_look(shirts, sizes, required, req_size))
+        print ("No")
 else:
-    print ("Invalid")
+    print ("No")
 
     
-    
+
+
+                
